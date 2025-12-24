@@ -88,7 +88,11 @@ func collect(ctx context.Context, interval, duration time.Duration) ([]sample, e
 func callstack() []Call {
 	rawCalls := make([]byte, 1<<20) // 1MB
 	n := runtime.Stack(rawCalls, true)
-	return parseRawCalls(rawCalls[:n])
+
+	calls := parseRawCalls(rawCalls[:n])
+	slices.Reverse(calls)
+
+	return calls
 }
 
 // TOOD: Filter out sleeping goroutines beforehand for execution time calculation?
@@ -141,6 +145,7 @@ func transform(samples []sample) []Event {
 	var prev sample
 	for _, curr := range samples {
 		removed, added := difference(prev.callstack, curr.callstack)
+		slices.Reverse(removed)
 
 		for _, function := range removed {
 			event := Event{

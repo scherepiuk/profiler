@@ -27,7 +27,7 @@ func main() {
 }
 
 func profilingRun(ctx context.Context) {
-	events, err := profiling.Run(ctx, 100*time.Nanosecond, time.Minute)
+	events, err := profiling.Run(ctx, 10*time.Nanosecond, time.Minute)
 	if err != nil {
 		log.Fatal(err)
 	}
