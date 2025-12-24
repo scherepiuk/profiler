@@ -37,7 +37,7 @@ func profilingRun(ctx context.Context) {
 			"profiling event",
 			"ts", event.Timestamp,
 			"type", event.Type,
-			"func", event.Function,
+			"func", event.Function.String(),
 		)
 	}
 }
